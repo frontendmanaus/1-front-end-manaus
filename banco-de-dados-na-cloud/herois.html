@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Exemplo 3</title>
+</head>
+<script src="//code.jquery.com/jquery-1.12.0.min.js"></script>
+<script src="https://cdn.firebase.com/js/client/2.4.1/firebase.js"></script>
+<body>
+
+<script>
+	
+var ref = new Firebase("https://frontendmanaus.firebaseio.com");
+
+ref.child("herois").on("child_changed", function(snapshot) {
+
+	var heroi = snapshot.val();
+
+	$( '#heroi' ).prepend( 'Heroi alterado: ' + heroi.nome + '<br>' );
+
+});
+
+ref.child("herois").on("child_added", function(snapshot) {
+
+	var heroi = snapshot.val();
+
+	$( '#heroi' ).prepend( 'Heroi adicionado: ' + heroi.nome + '<br>' );
+
+});
+
+</script>
+
+<div id='heroi'></div>
+
+
+</body>
+</html>

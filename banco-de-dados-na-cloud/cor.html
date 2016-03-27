@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Exemplo 3</title>
+</head>
+<script src="//code.jquery.com/jquery-1.12.0.min.js"></script>
+<script src="https://cdn.firebase.com/js/client/2.4.1/firebase.js"></script>
+<body>
+
+<script>
+	
+var ref = new Firebase("https://frontendmanaus.firebaseio.com");
+
+ref.child("configuracao").on("value", function(snapshot) {
+
+  var config = snapshot.val();
+
+  $("body").css("background-color", config.cor );
+
+  console.log("Cor setada para: " + config.cor);
+
+});
+
+
+ref.child("configuracao").on("child_changed", function(snapshot) {
+
+	var cor = snapshot.val();
+
+	$("body").css("background-color", cor );
+
+  	console.log("Cor alterada para: " + cor);
+
+});
+
+</script>
+
+
+</body>
+</html>

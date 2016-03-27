@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Exemplo 3</title>
+</head>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+<script src="//code.jquery.com/jquery-1.12.0.min.js"></script>
+<script src="https://cdn.firebase.com/js/client/2.4.1/firebase.js"></script>
+<body>
+
+<div class="container-fluid">
+  <div class="row">
+  	<div class="col-md-12" style="text-align: center;"><h1>Resultados</h1></div>
+  </div>
+   <div class="row">
+  	<div class="col-md-12" style="text-align: center;">
+  		<h1>Sim: <span id="sim"></span></h1>
+  	</div>
+  </div>
+   <div class="row">
+  	<div class="col-md-12">
+  		&nbsp;
+  	</div>
+  </div>
+   <div class="row">
+  	<div class="col-md-12" style="text-align: center;">
+  		<h1>Nao: <span id="nao"></span></h1>
+  	</div>
+  </div>
+</div>
+
+
+<script>
+
+var ref = new Firebase("https://frontendmanaus.firebaseio.com/");
+
+var sim = 0;
+
+var nao = 0;
+
+$('#sim').html(sim);
+
+$('#nao').html(nao);
+
+// Quando for inserido
+ref.child("votar").on("child_added", function(snapshot, prevChildKey) {
+
+  var cidadao = snapshot.val();
+
+  var key = snapshot.key();
+
+  if(cidadao.voto == 'sim'){
+
+  	sim++;
+
+  }else{
+
+	nao++;
+
+  }
+
+  $('#sim').html(sim);
+
+  $('#nao').html(nao);
+
+  console.log("Voto inserido: " + key + ' - ' + cidadao.voto);
+
+});
+
+// Quando for atualizado
+ref.child("votar").on("child_changed", function(snapshot) {
+
+	var cidadao = snapshot.val();
+
+	var key = snapshot.key();
+
+	if(cidadao.voto == 'sim'){
+
+  		sim++;
+  		nao--;
+
+	  }else{
+
+		nao++;
+		sim--;
+
+	  }
+
+	  $('#sim').html(sim);
+
+	  $('#nao').html(nao);
+
+	console.log("Voto atualizado: " + key + ' - ' + cidadao.voto);
+
+});
+
+</script>
+
+
+
+
+</body>
+</html>
